@@ -4,8 +4,9 @@ def generateMaze(size, wall_percentage):
     
     total_walls = int((size*size) * (wall_percentage/100))
     
-    
-    visited_cells = []
+    maze[0][0] = "S"
+    maze[size-1][size-1] = "E"
+    visited_cells = [(0,0),(size-1,size-1)]
 
     curr_wall_count = 0
 
