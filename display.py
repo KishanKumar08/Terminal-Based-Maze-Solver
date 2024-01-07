@@ -1,3 +1,5 @@
+from termcolor import colored
+
 def display_maze(maze):
 
     total_rows = total_columns = len(maze)
