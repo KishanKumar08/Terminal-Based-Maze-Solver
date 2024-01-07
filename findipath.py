@@ -26,7 +26,7 @@ def path_finding(maze):
             
             maze[row][col] = "◌"
             
-            
+            return False
         
         return False
 
