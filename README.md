@@ -16,13 +16,13 @@ To use the Terminal-Based Maze Solver, follow these steps:
 1. **Clone the Repository**: Clone this repository to your local machine.
 
     ```
-    git clone https://github.com/yourusername/maze-solver.git
+    git clone https://github.com/KishanKumar08/Terminal-Based-Maze-Solver.git
     ```
 
 2. **Navigate to the Directory**: Move to the directory where the repository was cloned.
 
     ```
-    cd maze-solver
+    cd Terminal-Based-Maze-Solver
     ```
 
 3. **Install Dependencies (if any)**: If there are any dependencies required, make sure to install them. This might vary based on the specific implementation.
@@ -30,7 +30,7 @@ To use the Terminal-Based Maze Solver, follow these steps:
 4. **Run the Solver**: Execute the solver script and provide the maze file as input.
 
     ```
-    python maze_solver.py path_to_your_maze_file.txt
+    python mazesolver.py
     ```
 
 5. **Follow Instructions**: Follow the instructions provided by the solver in the terminal to choose the algorithm and visualize the solution.
@@ -39,9 +39,9 @@ To use the Terminal-Based Maze Solver, follow these steps:
 
 The following algorithms are currently supported by the Maze Solver:
 
-- **Depth-First Search (DFS)**
+- **Backtracking**
 - **Breadth-First Search (BFS)**
-- **A* Search Algorithm**
+<!-- - **A* Search Algorithm** -->
 
 ## Input Maze Format
 
