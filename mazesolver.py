@@ -1,5 +1,6 @@
 import random
 from termcolor import colored
+from collections import deque
 
 # Generate Maze Function
 def generateMaze(size, wall_percentage):
@@ -52,98 +53,113 @@ def display_maze(maze):
         print()
 
 
-def path_finding(maze):
 
+def bfs(maze, start, goal):
 
-    def is_safe(mat,n,row,col):
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque([(start, [])])
+    visited = set()
 
-        if row<n and col<n and (mat[row][col] == "◌" or mat[row][col] == "S" or mat[row][col] == "E"):
-            return True
+    while queue:
+        current, path = queue.popleft()
+        x, y = current
 
-        return False
+        if current == goal:
+            return path + [current]
 
-    def maze_path(maze,n,row,col):
+        if current in visited:
+            continue
 
-        if row==n-1 and col==n-1:
-            maze[row][col] = "◍"
-            
-            return True
+        visited.add(current)
 
-        if is_safe(maze,n,row,col):
+        for dx, dy in directions:
+            new_x, new_y = x + dx, y + dy
+            if 0 <= new_x < len(maze) and 0 <= new_y < len(maze[0]) and (maze[new_x][new_y] == "◌" or maze[new_x][new_y] == "S" or maze[new_x][new_y] == "E"):
+                queue.append(((new_x, new_y), path + [current]))
 
-            maze[row][col] = "◍"
-        
-            if maze_path(maze,n,row+1,col): #move down
-                return True
-            if maze_path(maze,n,row,col+1): #move right
-                return True
-            
-            maze[row][col] = "◌"
-            
-            return False
-        
-        return False
-
-    return maze_path(maze,len(maze),0,0)
+    return None
 
 def main():
     print("------------------------------")
     print(colored("  🔥 Let's Begin the Game ✨  ","blue","on_red"))
     print("------------------------------")
-    maze_size = int(input("Enter the size of the maze (n*n) : "))
-    wall_percent = int(input("Enter the wall percentage you want in the maze ( 1- 25 ) : "))
-    
-    while (wall_percent > 25 or wall_percent < 1):
-        print(colored(" 🥺 Invalid Input 🥺 ","green"))
-        wall_percent = int(input("Enter the wall percentage you want in the maze ( 1- 25 ) : "))
-
-    print()
-    print(colored("Generated Maze :- ","blue"))
-    print()
-    Maze = generateMaze(maze_size, wall_percent)
-    display_maze(Maze)
 
     while True:
+        maze_size = int(input("Enter the size of the maze (n*n) : "))
+        wall_percent = int(input("Enter the wall percentage you want in the maze ( 1- 25 ) : "))
+        
+        while (wall_percent > 25 or wall_percent < 1):
+            print(colored(" 🥺 Invalid Input 🥺 ","green"))
+            wall_percent = int(input("Enter the wall percentage you want in the maze ( 1- 25 ) : "))
 
+        print()
+        print(colored("Generated Maze :- ","blue"))
+        print()
+        Maze = generateMaze(maze_size, wall_percent)
+        display_maze(Maze)
+        
+        print()
         print("1. Print The Path")
         print("2. Generate another Maze")
-        print("3. Exit The Game")
-
+        print("3. Exit The Game ❌")
+        print()
         user_choice = int(input("Enter Your Choice(1/2/3) :- "))
 
         if user_choice == 1:
-            print("Maze with path:->")
             print()
-            path = path_finding(Maze)
 
-            if (path):
+            start = (0, 0)
+            end = (maze_size-1,maze_size-1)
+
+            # Find the shortest path using BFS
+            shortest_path_using_bfs = bfs(Maze, start, end)
+
+
+            if shortest_path_using_bfs:
+                for tup in shortest_path_using_bfs:
+                    i,j = tup[0],tup[1]
+                    Maze[i][j] = "◍"
+
+                print("Maze with path:->")
                 display_maze(Maze)
             else:
-                print("Sorry: No Path Exist.💔 ")
-                
-                
+                print("Sorry: No Path Exist.💔 .")
             
-        elif user_choice == 2:
-            maze_size = int(input("Enter the size of the maze (n*n) : "))
-            wall_percent = int(input("Enter the wall percentage you want in the maze ( 1- 25 ) : "))
-            
-            while (wall_percent > 25 or wall_percent < 1):
+            print("1. Generate another Maze")
+            print("2. Exit The Game ❌")
+
+            choice_user = int(input("Enter Your Choice(1/2):- "))
+
+            while (choice_user != 1 and choice_user!=2):
                 print(colored(" 🥺 Invalid Input 🥺 ","green"))
-                wall_percent = int(input("Enter the wall percentage you want in the maze ( 1- 25 ) : "))
+                choice_user = int(input("Enter Your Choice(1/2):- "))
 
+            if choice_user == 1:
+                print()
+                continue
+            
+            else:
+                print()
+                print("Thank you for playing Game.❤️")
+                print("----------**-------------")
+                print("❤️ From Kishan Kumar.")
+                break
+        
+        elif user_choice == 2:
             print()
-            print(colored("Generated Maze :- ","blue"))
-            print()
-            Maze = generateMaze(maze_size, wall_percent)
-            display_maze(Maze)
+            continue
 
+            
         elif user_choice == 3:
+            print()
             print("Thank you for playing Game.❤️")
+            print("----------**-------------")
+            print("❤️ From Kishan Kumar.")
             break
             
         
         else:
-            print(colored(" 🥺 Invalid Input 🥺 ","green"))
+            print(colored(" 🥺 Invalid Input 🥺 ","magenta"))
             user_choice = int(input("Enter Your Choice(1/2/3) :- "))
 
 main()
